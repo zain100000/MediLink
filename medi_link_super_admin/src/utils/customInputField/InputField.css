@@ -1,0 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+  --font-family: "Roboto", serif;
+  --primary: #2349cc;
+  --success: #35f338;
+  --error: #f00221;
+  --white: #ffffff;
+  --dark: #000000;
+  --gray: #dde0e5;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style: none;
+}
+
+/* ------------------------------ INPUT FIELD CSS ------------------------------------ */
+/* ----------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------- */
+
+.custom-input {
+  width: 100%;
+  padding: 9px 16px;
+  border: 2px solid var(--gray);
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.custom-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.custom-input:hover {
+  border-color: var(--primary);
+}
+
+.custom-input:disabled {
+  background-color: var(--gray);
+  cursor: not-allowed;
+}
+
+.custom-input::placeholder {
+  color: var(--dark);
+  opacity: 0.6;
+}
