@@ -76,16 +76,6 @@
   background: var(--primary);
   color: var(--white);
   box-shadow: 0 6px 12px rgba(35, 73, 204, 0.4);
-  animation: pulse 2s infinite alternate;
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(0.2);
-  }
 }
 
 #sidebar .sidebar-icon {

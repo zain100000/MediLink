@@ -138,7 +138,6 @@ exports.loginDoctor = async (req, res) => {
             id: doctor.id,
             fullName: doctor.fullName,
             email: doctor.email,
-
           },
           token,
         });
@@ -175,6 +174,31 @@ exports.getDoctorById = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Error Getting Doctor For Provided ID!",
+    });
+  }
+};
+
+exports.getAllDoctors = async (req, res) => {
+  try {
+    const doctors = await Doctor.find().select("-password");
+
+    if (!doctors.length) {
+      return res.status(404).json({
+        success: false,
+        message: "No Doctors Found!",
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Doctors Fetched Successfully",
+      doctors,
+    });
+  } catch (err) {
+    console.error("Error:", err);
+    return res.status(500).json({
+      success: false,
+      message: "Error Fetching Doctors!",
     });
   }
 };

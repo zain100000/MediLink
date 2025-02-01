@@ -3,6 +3,7 @@ import { persistStore, persistReducer } from "redux-persist";
 import { combineReducers } from "redux";
 import authReducer from "../slices/authSlice";
 import userReducer from "../slices/userSlice";
+import doctorReducer from "../slices/doctorSlice";
 
 const localStorageWrapper = {
   getItem: (key) => {
@@ -33,6 +34,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   auth: authReducer,
   users: userReducer,
+  doctors: doctorReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

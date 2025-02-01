@@ -12,6 +12,8 @@ router.post(
 
 router.post("/signin-doctor", doctorController.loginDoctor);
 
+router.get("/get-all-doctors", protect, doctorController.getAllDoctors);
+
 router.get("/get-doctor-by-id/:id", protect, doctorController.getDoctorById);
 
 router.patch(

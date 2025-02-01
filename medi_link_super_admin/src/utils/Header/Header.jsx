@@ -12,7 +12,7 @@ import "./Header.css";
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const user = useSelector((state) => state.auth.user);
   const superAdmin = useSelector((state) => state.users.superAdmin);
@@ -62,6 +62,7 @@ const Header = () => {
             <Button
               className="logout-btn"
               onPress={handleLogout}
+              loading={loading}
               title="Logout"
             />
           </div>
