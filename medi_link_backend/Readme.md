@@ -1,8 +1,8 @@
-# Anime App Backend
+# MediLink Backend
 
 ## Description
 
-The **Anime App Backend** is a Node.js-based RESTful API designed to support a full-featured anime streaming and management platform. This backend provides endpoints for managing users, anime catalog, genres, reviews, and episodes. It includes robust user authentication and role-based access control (RBAC), allowing superadmins and admins to manage the platform effectively.
+The **MediLink Backend** is a Node.js-based RESTful API designed to support a full-featured doctor appointment and healthcare management platform. This backend provides endpoints for managing users, doctors, appointments, specialties, reviews, and schedules. It includes robust user authentication and role-based access control (RBAC), allowing admins and superadmins to manage the platform effectively.
 
 ---
 
@@ -11,28 +11,27 @@ The **Anime App Backend** is a Node.js-based RESTful API designed to support a f
 - **User Management**:
 
   - User registration, login, and authentication.
-  - Role-based access control: `user`, `admin`, and `superadmin`.
-  - Watchlist management for users.
+  - Role-based access control: `patient`, `doctor`, and `superadmin`.
+  - Profile management for patients and doctors.
 
-- **Anime Catalog**:
+- **Doctor Management:**:
 
-  - Add, update, delete, and view anime.
-  - Associate anime with genres and episodes.
-  - Average ratings calculated from user reviews.
+  - Add, update, delete, and view doctor profiles.
+  - Associate doctors with specialties and availability schedules.
+  - Average ratings calculated from patient reviews.
+  - Categorize doctors by medical specialties (e.g., Cardiology, Dermatology, Neurology).
 
-- **Genres**:
+- **Appointments:**:
 
-  - Categorize anime by genre (e.g., Action, Comedy, Drama).
+  - Patients can book, reschedule, or cancel appointments.
+  - Doctors can manage their appointment schedules.
 
-- **Episodes**:
+- **Reviews & Ratings:**:
 
-  - Manage individual anime episodes with details like title, description, duration, and release date.
+  - Patients can leave ratings and comments for doctors.
 
-- **Reviews and Ratings**:
+- **Role Based Accessed Control(RBAC):**:
 
-  - Users can leave ratings and comments on anime.
-
-- **Role-Based Access**:
-  - Only admins/superadmins can add or modify anime, genres, or episodes.
+  - Only superadmins will be able to manage.
 
 ---

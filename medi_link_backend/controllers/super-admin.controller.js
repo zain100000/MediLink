@@ -83,30 +83,25 @@ exports.loginSuperAdmin = async (req, res) => {
       },
     };
 
-    jwt.sign(
-      payload,
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" },
-      (err, token) => {
-        if (err) {
-          return res.status(500).json({
-            success: false,
-            message: "Error Generating Token!",
-          });
-        }
-
-        res.json({
-          success: true,
-          message: "Super Admin Login Successfully",
-          data: {
-            id: superadmin.id,
-            fullName: superadmin.fullName,
-            email: superadmin.email,
-          },
-          token,
+    jwt.sign(payload, process.env.JWT_SECRET, (err, token) => {
+      if (err) {
+        return res.status(500).json({
+          success: false,
+          message: "Error Generating Token!",
         });
       }
-    );
+
+      res.json({
+        success: true,
+        message: "Super Admin Login Successfully",
+        data: {
+          id: superadmin.id,
+          fullName: superadmin.fullName,
+          email: superadmin.email,
+        },
+        token,
+      });
+    });
   } catch (err) {
     console.error("Error:", err);
     return res.status(500).json({
@@ -298,14 +293,15 @@ exports.deleteDoctorProfile = async (req, res) => {
       });
     }
 
-    if (doctor.isActive !== "PENDING") {
+    // Allow deletion only if doctor is PENDING or REJECTED
+    if (doctor.isActive !== "PENDING" && doctor.isActive !== "REJECTED") {
       return res.status(400).json({
         success: false,
-        message:
-          "Doctor profile is not marked for deletion. Please check the status.",
+        message: "Only PENDING and REJECTED doctors can be deleted.",
       });
     }
 
+    // Delete profile picture if exists
     if (doctor.profilePicture) {
       const publicId = doctor.profilePicture
         .split("/")

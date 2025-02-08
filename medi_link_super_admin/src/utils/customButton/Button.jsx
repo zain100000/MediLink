@@ -16,24 +16,26 @@ const Button = ({
   color,
 }) => {
   return (
-    <button
-      className={`custom-button ${variant || "btn-primary"} ${
-        disabled ? "disabled" : ""
-      }`}
-      onClick={onPress}
-      style={{
-        ...style,
-        width: width || "auto",
-        height: height || "auto",
-      }}
-      disabled={disabled}
-    >
-      {loading ? (
-        <Loader loading={loading} size={18} color={color} />
-      ) : (
-        <span style={{ ...textStyle }}>{title}</span>
-      )}
-    </button>
+    <section id="button">
+      <button
+        className={`custom-button ${variant || "btn-primary"} ${
+          disabled ? "disabled" : ""
+        }`}
+        onClick={onPress}
+        style={{
+          ...style,
+          width: width || "auto",
+          height: height || "auto",
+        }}
+        disabled={disabled}
+      >
+        {loading ? (
+          <Loader loading={loading} size={20} color="#fff" />
+        ) : (
+          <span style={{ ...textStyle }}>{title}</span>
+        )}
+      </button>
+    </section>
   );
 };
 

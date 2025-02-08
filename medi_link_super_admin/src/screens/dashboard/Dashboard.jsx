@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
 import { getDoctors } from "../../redux/slices/doctorSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Card from "../../utils/customCards/Card";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const user = useSelector((state) => state.auth.user);
   const doctors = useSelector((state) => state.doctors.doctors);
@@ -35,47 +37,30 @@ const Dashboard = () => {
     { pending: 0, approved: 0, rejected: 0, total: 0 }
   );
 
+  const handleNavigateDoctor = () => {
+    navigate("/admin/doctors");
+  };
+
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-lg-4">
-          <Card
-            title="Doctors"
-            icon={<i className="fas fa-user-md" />}
-            stats={[
-              { label: "Total", value: totalDoctors },
-              { label: "Pending", value: pendingDoctors },
-              { label: "Approved", value: approvedDoctors },
-              { label: "Rejected", value: rejectedDoctors },
-            ]}
-          />
-        </div>
-        <div className="col-lg-4">
-          <Card
-            title="Patients"
-            icon={<i className="fas fa-user-injured" />}
-            stats={[
-              { label: "Total", value: totalDoctors },
-              { label: "Pending", value: pendingDoctors },
-              { label: "Approved", value: approvedDoctors },
-              { label: "Rejected", value: rejectedDoctors },
-            ]}
-          />
-        </div>
-        <div className="col-lg-4">
-          <Card
-            title="Appointments"
-            icon={<i className="fas fa-calendar-check" />}
-            stats={[
-              { label: "Total", value: totalDoctors },
-              { label: "Pending", value: pendingDoctors },
-              { label: "Approved", value: approvedDoctors },
-              { label: "Rejected", value: rejectedDoctors },
-            ]}
-          />
+    <section id="dashboard">
+      <div className="container">
+        <div className="row">
+          <div className="col-sm-12 col-md-4 col-lg-4">
+            <Card
+              onClick={handleNavigateDoctor}
+              title="Doctors"
+              icon={<i className="fas fa-user-md" />}
+              stats={[
+                { label: "Total", value: totalDoctors },
+                { label: "Pending", value: pendingDoctors },
+                { label: "Approved", value: approvedDoctors },
+                { label: "Rejected", value: rejectedDoctors },
+              ]}
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

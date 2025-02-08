@@ -6,6 +6,8 @@ import NotFound from "../screens/notFound/NotFound";
 import DashboardLayout from "../navigation/outlet/Outlet";
 import ProtectedRoute from "./protectedRoutes/ProtectedRoutes";
 import Dashboard from "../screens/dashboard/Dashboard";
+import Doctors from "../screens/doctors/Doctors";
+import DoctorDetails from "../screens/doctors/DoctorDetails";
 
 const AppNavigator = () => {
   return (
@@ -22,6 +24,8 @@ const AppNavigator = () => {
         }
       >
         <Route path="dashboard" element={<Dashboard />} />
+        <Route path="doctors" element={<Doctors />} />
+        <Route path="doctors/doctor-details/:id" element={<DoctorDetails />} />
       </Route>
 
       <Route path="*" element={<NotFound />} />

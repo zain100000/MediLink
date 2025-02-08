@@ -1,0 +1,138 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+  --font-family: "Roboto", serif;
+  --primary: #2349cc;
+  --success: #35f338;
+  --error: #f00221;
+  --white: #ffffff;
+  --dark: #000000;
+  --gray: #dde0e5;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style: none;
+}
+
+/* ------------------------------ DOCTOR SCREEN CSS ---------------------------------- */
+/* ----------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------- */
+
+#doctor .doctors-container {
+  padding: 20px;
+  background: var(--white);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#doctor .doctors-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 20px;
+}
+
+#doctor .table-responsive {
+  overflow-x: auto;
+}
+
+#doctor .custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+#doctor .custom-table thead {
+  background: var(--primary);
+  color: var(--white);
+}
+
+#doctor .custom-table th,
+#doctor .custom-table td {
+  padding: 12px 15px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+#doctor .custom-table tbody tr {
+  transition: background 0.3s ease-in-out, transform 0.2s ease;
+}
+
+#doctor .custom-table tbody tr:hover {
+  background: var(--gray);
+  transform: scale(1.02);
+  cursor: pointer;
+}
+
+#doctor .doctor-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.doctor-name {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+#doctor .doctor-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#doctor .status-badge {
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 15px;
+  text-transform: uppercase;
+}
+
+#doctor .status-badge.approved {
+  background: var(--success);
+  color: var(--dark);
+}
+
+#doctor .status-badge.pending {
+  background: var(--primary);
+  color: var(--white);
+}
+
+#doctor .status-badge.rejected {
+  background: var(--error);
+  color: var(--white);
+}
+
+#doctor .action-button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 5px;
+}
+
+#doctor .action-button.status-change {
+  background-color: #28a745;
+  color: white;
+}
+
+#doctor .action-button.view-detail {
+  background-color: var(--primary);
+  color: white;
+}
+
+#doctor .action-button i {
+  margin-right: 3px;
+}
