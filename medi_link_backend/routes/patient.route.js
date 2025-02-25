@@ -12,6 +12,8 @@ router.post(
 
 router.post("/signin-patient", patientController.loginPatient);
 
+router.get("/get-all-patients", protect, patientController.getAllPatients);
+
 router.get("/get-patient-by-id/:id", protect, patientController.getPatientById);
 
 router.patch(

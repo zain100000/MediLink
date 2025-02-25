@@ -20,8 +20,7 @@ exports.registerDoctor = async (req, res) => {
       departments,
       qualifications,
       experience,
-      consultationFee,
-      availableSlots,
+      consultationFee,     
       isActive,
     } = req.body;
 
@@ -58,8 +57,7 @@ exports.registerDoctor = async (req, res) => {
       departments,
       qualifications,
       experience,
-      consultationFee,
-      availableSlots,
+      consultationFee,      
       isActive,
       role: "DOCTOR",
     });
@@ -230,7 +228,7 @@ exports.updateDoctor = async (req, res) => {
 
     if (
       req.headers["content-type"] &&
-      req.headers["content-type"].includes("multipart/form-data")
+      req.headers["content-type"].includes("application/json")
     ) {
       if (req.body.fullName) doctor.fullName = req.body.fullName;
       if (req.body.phone) doctor.phone = req.body.phone;
@@ -239,9 +237,9 @@ exports.updateDoctor = async (req, res) => {
         doctor.qualifications = req.body.qualifications;
       if (req.body.experience) doctor.experience = req.body.experience;
       if (req.body.consultationFee)
-        doctor.consultationFee = req.body.consultationFee;
-      if (req.body.availableSlots)
-        doctor.availableSlots = req.body.availableSlots;
+        doctor.consultationFee = req.body.consultationFee;    
+
+      if (req.body.visitedPatients) doctor.visitedPatients = req.body.visitedPatients;
 
       if (req.file) {
         if (doctor.profilePicture) {

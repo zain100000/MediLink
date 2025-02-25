@@ -59,12 +59,7 @@ const doctorSchema = new mongoose.Schema({
   consultationFee: {
     type: Number,
     required: true,
-  },
-
-  availableSlots: {
-    type: String,
-    required: true,
-  },
+  },  
 
   appointments: [
     {

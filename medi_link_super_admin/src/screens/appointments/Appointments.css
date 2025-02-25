@@ -1,0 +1,102 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+  --font-family: "Roboto", serif;
+  --primary: #2349cc;
+  --success: #35f338;
+  --error: #f00221;
+  --white: #ffffff;
+  --dark: #000000;
+  --gray: #dde0e5;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style: none;
+}
+
+/* ------------------------------ APPOINTMENT SCREEN CSS ----------------------------- */
+/* ----------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------- */
+
+#appointment .appointments-container {
+  padding: 20px;
+  background: var(--white);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#appointment .appointments-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 20px;
+}
+
+#appointment .table-responsive {
+  overflow-x: auto;
+}
+
+#appointment .custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+#appointment .custom-table thead {
+  background: var(--primary);
+  color: var(--white);
+}
+
+#appointment .custom-table th,
+#appointment .custom-table td {
+  padding: 12px 15px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+#appointment .custom-table tbody tr {
+  transition: background 0.3s ease-in-out, transform 0.2s ease;
+}
+
+#appointment .custom-table tbody tr:hover {
+  background: var(--gray);
+  transform: scale(1.02);
+  cursor: pointer;
+}
+
+#appointment .appointment-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.appointment-name {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+#appointment .action-button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 5px;
+}
+
+#appointment .action-button.view-detail {
+  background-color: var(--primary);
+  color: white;
+}
+
+#appointment .action-button i {
+  margin-right: 3px;
+}

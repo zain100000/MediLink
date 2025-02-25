@@ -116,7 +116,6 @@ exports.loginPatient = async (req, res) => {
             id: patient.id,
             fullName: patient.fullName,
             email: patient.email,
-
           },
           token,
         });
@@ -157,6 +156,31 @@ exports.getPatientById = async (req, res) => {
   }
 };
 
+exports.getAllPatients = async (req, res) => {
+  try {
+    const patients = await Patient.find().select("-password");
+
+    if (!patients.length) {
+      return res.status(404).json({
+        success: false,
+        message: "No Patients Found!",
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Patients Fetched Successfully",
+      patients,
+    });
+  } catch (err) {
+    console.error("Error:", err);
+    return res.status(500).json({
+      success: false,
+      message: "Error Fetching Patients!",
+    });
+  }
+};
+
 exports.updatePatient = async (req, res) => {
   const { id } = req.params;
 
@@ -177,13 +201,15 @@ exports.updatePatient = async (req, res) => {
 
     if (
       req.headers["content-type"] &&
-      req.headers["content-type"].includes("multipart/form-data")
+      req.headers["content-type"].includes("application/json")
     ) {
       if (req.body.fullName) patient.fullName = req.body.fullName;
       if (req.body.phone) patient.phone = req.body.phone;
       if (req.body.address) patient.address = req.body.address;
       if (req.body.medicalHistory)
         patient.medicalHistory = req.body.medicalHistory;
+      if (req.body.visitedDoctors)
+        patient.visitedDoctors = req.body.visitedDoctors;
 
       if (req.file) {
         if (patient.profilePicture) {

@@ -39,6 +39,32 @@ const Sidebar = () => {
             </div>
             <span>Doctors</span>
           </NavLink>
+
+          <NavLink
+            to="/admin/patients"
+            className={`sidebar-link ${
+              activeLink === "/admin/patients" ? "active" : ""
+            }`}
+            onClick={() => setActiveLink("/admin/patients")}
+          >
+            <div className="sidebar-icon">
+              <i className="fas fa-user-injured"></i>
+            </div>
+            <span>Patients</span>
+          </NavLink>
+
+          <NavLink
+            to="/admin/appointments"
+            className={`sidebar-link ${
+              activeLink === "/admin/appointments" ? "active" : ""
+            }`}
+            onClick={() => setActiveLink("/admin/appointments")}
+          >
+            <div className="sidebar-icon">
+              <i className="fas fa-clipboard-check"></i>
+            </div>
+            <span>Appointments</span>
+          </NavLink>
         </li>
       </ul>
     </section>

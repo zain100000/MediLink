@@ -45,12 +45,6 @@ const DoctorDetails = () => {
                   <td className="value color2">${doctor.consultationFee}</td>
                 </tr>
                 <tr>
-                  <td className="label color3">Availability</td>
-                  <td className="value color3">{doctor.availableSlots}</td>
-                  <td className="label color4">Gender</td>
-                  <td className="value color4">{doctor.gender}</td>
-                </tr>
-                <tr>
                   <td className="label color1">Departments</td>
                   <td className="value color1">
                     {doctor.departments.join(", ")}

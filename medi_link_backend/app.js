@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const superAdminRoute = require("./routes/super-admin.route");
 const doctorRoute = require("./routes/doctor.route");
 const patientRoute = require("./routes/patient.route");
+const appointmentRoute = require("./routes/appointment.route");
 
 require("dotenv").config();
 
@@ -31,6 +32,7 @@ app.use((req, res, next) => {
 app.use("/api/super-admin", superAdminRoute);
 app.use("/api/doctor", doctorRoute);
 app.use("/api/patient", patientRoute);
+app.use("/api/appointment", appointmentRoute);
 
 mongoose
   .connect(process.env.MONGODB_URI)

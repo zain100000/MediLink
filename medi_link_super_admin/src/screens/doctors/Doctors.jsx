@@ -20,7 +20,8 @@ const Doctors = () => {
   const doctors = useSelector((state) => state.doctors.doctors);
 
   const [selectedDoctor, setSelectedDoctor] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [loadingAction, setLoadingAction] = useState(null);
   const [search, setSearch] = useState("");
 
@@ -32,7 +33,7 @@ const Doctors = () => {
 
   const handleStatusChange = (doctor) => {
     setSelectedDoctor(doctor);
-    setIsModalOpen(true);
+    setIsStatusModalOpen(true);
   };
 
   const handleViewDetailChange = (doctor) => {
@@ -64,14 +65,14 @@ const Doctors = () => {
       toast.error("Error while changing status.");
     } finally {
       setLoadingAction(null);
-      setIsModalOpen(false);
+      setIsStatusModalOpen(false);
       setSelectedDoctor(null);
     }
   };
 
   const handleDeleteDoctor = async (doctor) => {
     setSelectedDoctor(doctor);
-    setIsModalOpen(true);
+    setIsDeleteModalOpen(true);
   };
 
   const deleteDoctor = async () => {
@@ -88,13 +89,13 @@ const Doctors = () => {
       toast.error("Error while deleting doctor.");
     } finally {
       setLoadingAction(null);
-      setIsModalOpen(false);
+      setIsDeleteModalOpen(false);
       setSelectedDoctor(null);
     }
   };
 
-  const filteredDoctors = doctors.filter((doctor) =>
-    doctor.fullName.toLowerCase().includes(search.toLowerCase())
+  const filteredDoctors = (Array.isArray(doctors) ? doctors : []).filter(
+    (doctor) => doctor.fullName.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -162,12 +163,15 @@ const Doctors = () => {
                       >
                         <i className="fas fa-eye"></i>
                       </button>
-                      <button
-                        className="action-button delete-doctor"
-                        onClick={() => handleDeleteDoctor(doctor)}
-                      >
-                        <i className="fas fa-trash"></i>
-                      </button>
+
+                      {doctor?.isActive !== "APPROVED" && (
+                        <button
+                          className="action-button delete-doctor"
+                          onClick={() => handleDeleteDoctor(doctor)}
+                        >
+                          <i className="fas fa-trash"></i>
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))}
@@ -187,8 +191,8 @@ const Doctors = () => {
           )}
         </div>
         <Modal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
+          isOpen={isStatusModalOpen}
+          onClose={() => setIsStatusModalOpen(false)}
           title={`Change Status for ${selectedDoctor?.fullName}`}
           loading={loadingAction !== null}
           buttons={[
@@ -208,9 +212,10 @@ const Doctors = () => {
         >
           Are you sure you want to change the status?
         </Modal>
+
         <Modal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
+          isOpen={isDeleteModalOpen}
+          onClose={() => setIsDeleteModalOpen(false)}
           title={`Delete ${selectedDoctor?.fullName} Profile`}
           loading={loadingAction === "DELETE"}
           buttons={[
