@@ -36,7 +36,7 @@ const doctorSchema = new mongoose.Schema({
     required: true,
   },
 
-  specialist: {
+  specialization: {
     type: String,
     required: true,
   },

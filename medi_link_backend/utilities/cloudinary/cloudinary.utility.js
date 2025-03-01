@@ -40,7 +40,6 @@ const uploadToCloudinary = async (file) => {
       public_id: globalFileName,
       resource_type: "image",
     });
-    console.log("result", result);
     return { url: result.secure_url };
   } catch (error) {
     console.error("Error uploading to Cloudinary:", error);
