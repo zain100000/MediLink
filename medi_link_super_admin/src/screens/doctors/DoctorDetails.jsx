@@ -36,7 +36,7 @@ const DoctorDetails = () => {
                   <td className="label color3">Phone</td>
                   <td className="value color3">{doctor.phone}</td>
                   <td className="label color4">Speciality</td>
-                  <td className="value color4">{doctor.specialist}</td>
+                  <td className="value color4">{doctor.specialization}</td>
                 </tr>
                 <tr>
                   <td className="label color1">Experience</td>
