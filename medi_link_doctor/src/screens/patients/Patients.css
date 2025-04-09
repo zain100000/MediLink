@@ -1,0 +1,115 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+  --font-family: "Roboto", serif;
+  --primary: #2349cc;
+  --success: #35f338;
+  --error: #f00221;
+  --white: #ffffff;
+  --dark: #000000;
+  --gray: #dde0e5;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style: none;
+}
+
+/* ------------------------------ PATIENTS SCREEN CSS -------------------------------- */
+/* ----------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------- */
+
+#patient .patients-container {
+  padding: 20px;
+  background: var(--white);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#patient .patients-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 20px;
+}
+
+#patient .table-responsive {
+  overflow-x: auto;
+}
+
+#patient .custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+#patient .custom-table thead {
+  background: var(--primary);
+  color: var(--white);
+}
+
+#patient .custom-table th,
+#patient .custom-table td {
+  padding: 12px 15px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+#patient .custom-table tbody tr {
+  transition: background 0.3s ease-in-out, transform 0.2s ease;
+}
+
+#patient .custom-table tbody tr:hover {
+  background: var(--gray);
+  transform: scale(1.02);
+  cursor: pointer;
+}
+
+#patient .patient-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.patient-name {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+#patient .patient-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#patient .action-button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 5px;
+}
+
+#patient .action-button.view-detail {
+  background-color: var(--primary);
+  color: white;
+}
+
+#patient .action-button.status-change {
+  background-color: var(--success);
+  color: white;
+}
+
+#patient .action-button i {
+  margin-right: 3px;
+}
