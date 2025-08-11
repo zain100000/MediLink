@@ -7,7 +7,6 @@ import Button from "../../utils/customButton/Button";
 import {
   validateEmail,
   validatePassword,
-  validateFields,
   validateFullName,
 } from "../../utils/customValidations/Validations";
 import imgPlaceholder from "../../assets/placeholders/img-placeholder.png";
@@ -15,14 +14,58 @@ import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { register } from "../../redux/slices/authSlice";
 
+// Validation for all fields
+const validateFields = (fields) => {
+  const errors = {};
+
+  if (!fields.fullName?.trim()) errors.fullName = "Full name is required.";
+  else {
+    const fullNameErr = validateFullName(fields.fullName);
+    if (fullNameErr) errors.fullName = fullNameErr;
+  }
+
+  if (!fields.email?.trim()) errors.email = "Email is required.";
+  else {
+    const emailErr = validateEmail(fields.email);
+    if (emailErr) errors.email = emailErr;
+  }
+
+  if (!fields.password) errors.password = "Password is required.";
+  else {
+    const passErr = validatePassword(fields.password);
+    if (passErr) errors.password = passErr;
+  }
+
+  if (!fields.phone?.trim()) errors.phone = "Phone number is required.";
+  if (!fields.address?.trim()) errors.address = "Address is required.";
+  if (!fields.speciality?.trim()) errors.speciality = "Speciality is required.";
+  if (!fields.experience?.trim()) errors.experience = "Experience is required.";
+  if (!fields.department?.trim()) errors.department = "Department is required.";
+  if (!fields.qualification?.trim())
+    errors.qualification = "Qualification is required.";
+  if (!fields.consultationFee?.trim())
+    errors.consultationFee = "Consultation Fee is required.";
+
+  return errors;
+};
+
 const Signup = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
+
   const [selectedImage, setSelectedImage] = useState(null);
+
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [speciality, setSpeciality] = useState("");
+  const [experience, setExperience] = useState("");
+  const [department, setDepartment] = useState("");
+  const [qualification, setQualification] = useState("");
+  const [consultationFee, setConsultationFee] = useState("");
 
   const [loading, setLoading] = useState(false);
 
@@ -31,13 +74,7 @@ const Signup = () => {
   const [passwordError, setPasswordError] = useState("");
 
   useEffect(() => {
-    const hasErrors =
-      fullNameError ||
-      emailError ||
-      passwordError ||
-      !fullName ||
-      !email ||
-      !password;
+    // This is just tracking errors
   }, [fullNameError, emailError, passwordError, fullName, email, password]);
 
   const handleFullNameChange = (value) => {
@@ -57,14 +94,9 @@ const Signup = () => {
 
   const handleImageSelect = (event) => {
     const file = event.target.files[0];
-
     if (file) {
       const reader = new FileReader();
-
-      reader.onloadend = () => {
-        setSelectedImage(reader.result);
-      };
-
+      reader.onloadend = () => setSelectedImage(reader.result);
       reader.readAsDataURL(file);
     }
   };
@@ -76,12 +108,22 @@ const Signup = () => {
   const handleSignup = async (event) => {
     event.preventDefault();
 
-    const fields = { fullName, email, password };
-    const errors = validateFields(fields);
-    const errorKeys = Object.keys(errors);
+    const fields = {
+      fullName,
+      email,
+      password,
+      phone,
+      address,
+      speciality,
+      department,
+      qualification,
+      experience,
+      consultationFee, // also make sure state exists
+    };
 
-    if (errorKeys.length > 0) {
-      toast.error(errors[errorKeys[0]]);
+    const errors = validateFields(fields);
+    if (Object.keys(errors).length > 0) {
+      toast.error(errors[Object.keys(errors)[0]]);
       setLoading(false);
       return;
     }
@@ -92,6 +134,17 @@ const Signup = () => {
     formData.append("fullName", fullName);
     formData.append("email", email);
     formData.append("password", password);
+    formData.append("phone", phone);    
+    formData.append("address", address);
+    formData.append("specialization", speciality);
+
+    // These must be arrays in the backend
+    formData.append("departments", JSON.stringify([department]));
+    formData.append("qualifications", JSON.stringify([qualification]));
+
+    formData.append("experience", experience);
+    formData.append("consultationFee", Number(consultationFee));
+
     if (fileInputRef.current.files[0]) {
       formData.append("profilePicture", fileInputRef.current.files[0]);
     }
@@ -100,21 +153,14 @@ const Signup = () => {
       const resultAction = await dispatch(register(formData));
 
       if (register.fulfilled.match(resultAction)) {
-        toast.success(
-          "Register Successfully, wait for admin approval!"
-        );
-        setTimeout(() => {
-          navigate("/");
-        }, 2000);
+        toast.success("Register Successfully, wait for admin approval!");
+        setTimeout(() => navigate("/"), 2000);
       } else {
-        const errorMessage =
-          register.rejected.match(resultAction) && resultAction.payload
-            ? resultAction.payload.error || "Register failed. Please try again."
-            : "Unexpected response from server.";
-
-        toast.error(errorMessage);
+        toast.error(
+          resultAction.payload?.error || "Register failed. Please try again."
+        );
       }
-    } catch (err) {
+    } catch {
       toast.error("An error occurred. Please try again.");
     } finally {
       setLoading(false);
@@ -129,31 +175,30 @@ const Signup = () => {
             <div className="card">
               <div className="card-body">
                 <div className="logo-container">
-                  <img src={Logo} className="logo" />
+                  <img src={Logo} className="logo" alt="logo" />
                 </div>
 
                 <form className="form-container">
+                  {/* Profile Picture */}
                   <div className="img-container">
-                    <div className="image-placeholder-container">
-                      <div
-                        onClick={handleImageClick}
-                        style={{ cursor: "pointer" }}
-                      >
-                        {selectedImage ? (
-                          <img
-                            src={selectedImage}
-                            alt="Image"
-                            className="image"
-                          />
-                        ) : (
-                          <img
-                            src={imgPlaceholder}
-                            alt="Placeholder"
-                            className="image"
-                          />
-                        )}
-                      </div>
-
+                    <div
+                      className="image-placeholder-container"
+                      onClick={handleImageClick}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {selectedImage ? (
+                        <img
+                          src={selectedImage}
+                          alt="Profile"
+                          className="image"
+                        />
+                      ) : (
+                        <img
+                          src={imgPlaceholder}
+                          alt="Placeholder"
+                          className="image"
+                        />
+                      )}
                       <input
                         type="file"
                         ref={fileInputRef}
@@ -164,40 +209,111 @@ const Signup = () => {
                     </div>
                   </div>
 
-                  <div className="name-container">
-                    <label className="label">Name</label>
-                    <InputField
-                      label="Enter Name"
-                      type="text"
-                      editable={true}
-                      value={fullName}
-                      onChange={handleFullNameChange}
-                    />
+                  {/* Fields Grid */}
+                  <div className="form-grid">
+                    <div>
+                      <label className="label">Name</label>
+                      <InputField
+                        label="Enter Name"
+                        type="text"
+                        editable={true}
+                        value={fullName}
+                        onChange={handleFullNameChange}
+                      />
+                    </div>
+                    <div>
+                      <label className="label">Email</label>
+                      <InputField
+                        label="Enter Email"
+                        type="text"
+                        editable={true}
+                        value={email}
+                        onChange={handleEmailChange}
+                      />
+                    </div>
+                    <div>
+                      <label className="label">Password</label>
+                      <InputField
+                        label="Enter Password"
+                        type="password"
+                        editable={true}
+                        value={password}
+                        onChange={handlePasswordChange}
+                      />
+                    </div>
+                    <div>
+                      <label className="label">Phone</label>
+                      <InputField
+                        label="Enter Phone Number"
+                        type="text"
+                        editable={true}
+                        value={phone}
+                        onChange={setPhone}
+                      />
+                    </div>
+                    <div>
+                      <label className="label">Address</label>
+                      <InputField
+                        label="Enter Address"
+                        type="text"
+                        editable={true}
+                        value={address}
+                        onChange={setAddress}
+                      />
+                    </div>
+                    <div>
+                      <label className="label">Speciality</label>
+                      <InputField
+                        label="Enter Speciality"
+                        type="text"
+                        editable={true}
+                        value={speciality}
+                        onChange={setSpeciality}
+                      />
+                    </div>
+                    <div>
+                      <label className="label">Experience</label>
+                      <InputField
+                        label="Enter Experience"
+                        type="text"
+                        editable={true}
+                        value={experience}
+                        onChange={setExperience}
+                      />
+                    </div>
+                    <div>
+                      <label className="label">Department</label>
+                      <InputField
+                        label="Enter Department"
+                        type="text"
+                        editable={true}
+                        value={department}
+                        onChange={setDepartment}
+                      />
+                    </div>
+                    <div>
+                      <label className="label">Qualification</label>
+                      <InputField
+                        label="Enter Qualification"
+                        type="text"
+                        editable={true}
+                        value={qualification}
+                        onChange={setQualification}
+                      />
+                    </div>
+                    <div>
+                      <label className="label">Consultation Fee</label>
+                      <InputField
+                        label="Enter Consultation Fee"
+                        type="text"
+                        editable={true}
+                        value={consultationFee}
+                        onChange={setConsultationFee}
+                      />
+                    </div>
                   </div>
 
-                  <div className="email-container">
-                    <label className="label">Email</label>
-                    <InputField
-                      label="Enter Email"
-                      type="text"
-                      editable={true}
-                      value={email}
-                      onChange={handleEmailChange}
-                    />
-                  </div>
-
-                  <div className="password-container">
-                    <label className="label">Password</label>
-                    <InputField
-                      label="Enter Password"
-                      type="password"
-                      secureTextEntry={true}
-                      editable={true}
-                      value={password}
-                      onChange={handlePasswordChange}
-                    />
-                  </div>
-
+                  {/* Signup Button */}
                   <div className="btn-container">
                     <Button
                       title="Signup"
@@ -207,15 +323,12 @@ const Signup = () => {
                     />
                   </div>
 
+                  {/* Signin Link */}
                   <div className="signin-container">
-                    <div className="left-container">
-                      <label className="label">Already have an account?</label>
-                    </div>
-                    <div className="right-container">
-                      <NavLink to="/" className="signin-label">
-                        Signin
-                      </NavLink>
-                    </div>
+                    <label className="label">Already have an account?</label>
+                    <NavLink to="/" className="signin-label">
+                      Signin
+                    </NavLink>
                   </div>
                 </form>
               </div>

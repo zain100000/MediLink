@@ -51,7 +51,7 @@ const doctorSchema = new mongoose.Schema({
 
   consultationFee: {
     type: Number,
-  },  
+  },
 
   appointments: [
     {
