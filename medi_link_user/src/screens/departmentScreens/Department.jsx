@@ -16,15 +16,15 @@ import {useDispatch, useSelector} from 'react-redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {getAllDoctors} from '../../redux/slices/doctorSlice';
 import DepartmentCard from '../../utils/customComponents/customCards/departmentCard/DepartmentCard';
-import InputField from '../../utils/customComponents/customInputField/InputField'; // Adjust the import path if needed
+import InputField from '../../utils/customComponents/customInputField/InputField';
 
 const {width, height} = Dimensions.get('screen');
 
-const Appointment = () => {
+const Department = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
   const doctors = useSelector(state => state.doctor.doctors);
+
   const [departments, setDepartments] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -32,24 +32,22 @@ const Appointment = () => {
     dispatch(getAllDoctors());
   }, [dispatch]);
 
-  // Extract unique departments from doctors
+  // Extract unique departments from doctor list
   useEffect(() => {
-    if (doctors && doctors.length) {
+    if (doctors?.length) {
       const deptSet = new Set();
-
       doctors.forEach(doc => {
-        if (doc.departments && doc.departments.length) {
+        if (doc.departments?.length) {
           doc.departments.forEach(deptStr => {
             try {
-              const parsedDepts = JSON.parse(deptStr);
-              parsedDepts.forEach(d => deptSet.add(d));
+              const parsed = JSON.parse(deptStr);
+              parsed.forEach(d => deptSet.add(d));
             } catch (e) {
               console.warn('Failed to parse departments:', e);
             }
           });
         }
       });
-
       setDepartments(Array.from(deptSet));
     }
   }, [doctors]);
@@ -58,25 +56,19 @@ const Appointment = () => {
     StatusBar.setBackgroundColor(theme.colors.primary);
   }, []);
 
-  // Optional: simple icon mapping by department name keyword
-  const getIconName = department => {
-    const lower = department.toLowerCase();
-    if (lower.includes('dermatology')) return 'hand-extended-outline';
-    if (lower.includes('dentistry')) return 'tooth-outline';
-    if (lower.includes('psychiatry')) return 'brain';
-    if (
-      lower.includes('ear') ||
-      lower.includes('nose') ||
-      lower.includes('throat')
-    )
-      return 'head-outline';
-    return 'clinic';
-  };
-
-  // Filter departments by search query (case insensitive)
   const filteredDepartments = departments.filter(dept =>
     dept.toLowerCase().includes(searchQuery.toLowerCase()),
   );
+
+  const getDoctorsByDepartment = department =>
+    doctors.filter(doc => {
+      try {
+        const parsed = JSON.parse(doc.departments[0]);
+        return parsed.includes(department);
+      } catch {
+        return false;
+      }
+    });
 
   return (
     <LinearGradient
@@ -97,7 +89,7 @@ const Appointment = () => {
         />
       </View>
 
-      <View style={[styles.searchWrapper]}>
+      <View style={styles.searchWrapper}>
         <InputField
           placeholder="Search departments"
           value={searchQuery}
@@ -115,67 +107,61 @@ const Appointment = () => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}>
-        <View style={styles.profileCards}>
-          <View style={styles.departmentContainer}>
-            {filteredDepartments.length ? (
-              filteredDepartments.map(dept => (
-                <DepartmentCard
-                  key={dept}
-                  mainTitle={dept}
-                  iconName={getIconName(dept)}
-                  navigationTarget="DepartmentDetails"
-                  rightIcon="chevron-forward"
-                  iconColor={theme.colors.white}
-                  textColor={theme.colors.white}
-                  onPress={() =>
-                    navigation.navigate('DepartmentDetails', {department: dept})
-                  }
-                />
-              ))
-            ) : (
-              <View
-                style={{
-                  padding: 20,
-                  alignSelf: 'center',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <FontAwesome5
-                  name="exclamation-circle"
-                  size={width * 0.08}
-                  color={theme.colors.white}
-                />
-                {/* Or add a Text here like "No departments found" */}
-                <Text style={{color: theme.colors.white, marginTop: 10}}>
-                  No Departments found
-                </Text>
-              </View>
-            )}
-          </View>
+        <View style={styles.departmentContainer}>
+          {filteredDepartments.length ? (
+            filteredDepartments.map(dept => (
+              <DepartmentCard
+                key={dept}
+                mainTitle={dept}
+                rightIcon="chevron-forward"
+                iconColor={theme.colors.white}
+                textColor={theme.colors.white}
+                onPress={() =>
+                  navigation.navigate('Department_Details', {
+                    department: dept,
+                    doctors: getDoctorsByDepartment(dept),
+                  })
+                }
+              />
+            ))
+          ) : (
+            <View style={styles.emptyContainer}>
+              <FontAwesome5
+                name="exclamation-circle"
+                size={width * 0.08}
+                color={theme.colors.white}
+              />
+              <Text style={styles.emptyText}>No Departments found</Text>
+            </View>
+          )}
         </View>
       </ScrollView>
     </LinearGradient>
   );
 };
 
-export default Appointment;
+export default Department;
 
 const styles = StyleSheet.create({
   headerContainer: {
     paddingTop: height * 0.01,
   },
-
-  scrollContainer: {
-    paddingBottom: height * 0.05,
-  },
-
   departmentContainer: {
     marginVertical: height * 0.02,
     gap: height * 0.015,
   },
-
   searchWrapper: {
     marginHorizontal: width * 0.04,
     marginVertical: height * 0.015,
+  },
+  emptyContainer: {
+    padding: 20,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyText: {
+    color: theme.colors.white,
+    marginTop: 10,
   },
 });

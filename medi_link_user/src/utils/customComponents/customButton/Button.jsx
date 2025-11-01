@@ -13,31 +13,44 @@ const Button = ({
   disabled,
   backgroundColor,
   textColor,
+  icon, // 👈 new prop
+  iconSpacing = 8, // optional spacing between icon and text
 }) => {
+  const buttonContent = () => {
+    if (loading) {
+      return <ActivityIndicator color={textColor} size={25} />;
+    }
+
+    return (
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        {icon ? <View style={{marginRight: iconSpacing}}>{icon}</View> : null}
+        <Text style={[globalStyles.buttonTextPrimary, textStyle, {color: textColor}]}>
+          {title}
+        </Text>
+      </View>
+    );
+  };
+
   return (
-    <View>
-      <TouchableOpacity
-        onPress={onPress}
-        disabled={disabled}
-        style={[
-          globalStyles.buttonPrimary,
-          style,
-          {
-            width: width || 'auto',
-            backgroundColor: disabled ? theme.colors.gray : backgroundColor,
-          },
-        ]}
-        activeOpacity={disabled ? 1 : 0.7}>
-        {loading ? (
-          <ActivityIndicator color={textColor} size={25} />
-        ) : (
-          <Text
-            style={[globalStyles.buttonText, textStyle, {color: textColor}]}>
-            {title}
-          </Text>
-        )}
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity
+      onPress={onPress}
+      disabled={disabled}
+      style={[
+        globalStyles.buttonPrimary,
+        style,
+        {
+          width: width || 'auto',
+          backgroundColor: disabled ? theme.colors.gray : backgroundColor,
+        },
+      ]}
+      activeOpacity={disabled ? 1 : 0.7}>
+      {buttonContent()}
+    </TouchableOpacity>
   );
 };
 

@@ -26,7 +26,7 @@ const DepartmentCard = ({
       style={styles.cardContainer}>
       <View style={styles.cardLeftContainer}>
         {/* Container for the icon with a circular background */}
-        <View style={styles.iconBackground}>
+        {/* <View style={styles.iconBackground}>
           <MaterialCommunityIcons
             name={iconName || 'body'} // Default icon if none is provided
             size={width * 0.06}
@@ -35,7 +35,7 @@ const DepartmentCard = ({
               {color: iconColor || theme.colors.primary},
             ]}
           />
-        </View>
+        </View> */}
 
         <View style={styles.textContainer}>
           {mainTitle && <Text style={styles.mainTitle}>{mainTitle}</Text>}

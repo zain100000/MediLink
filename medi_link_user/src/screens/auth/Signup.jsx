@@ -385,7 +385,7 @@ const Signup = () => {
                   mode="date"
                   display="default"
                   onChange={onDateChange}
-                  minimumDate={new Date()}
+                  maximumDate={new Date()}
                 />
               )}
             </View>

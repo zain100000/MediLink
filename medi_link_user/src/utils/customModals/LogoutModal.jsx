@@ -14,7 +14,7 @@ import logoutAnimation from '../../assets/animations/logout.json';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import {theme} from '../../styles/theme';
-import {logoutUser} from '../../redux/slices/authSlice';
+import {logoutPatient} from '../../redux/slices/authSlice';
 import {useDispatch} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
@@ -31,7 +31,7 @@ const LogoutModal = ({visible, title, description, onClose}) => {
     setLoading(true);
 
     try {
-      const resultAction = await dispatch(logoutUser()).unwrap();
+      const resultAction = await dispatch(logoutPatient()).unwrap();
 
       if (resultAction.success) {
         await AsyncStorage.removeItem('authToken');

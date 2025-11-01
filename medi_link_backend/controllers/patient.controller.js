@@ -187,7 +187,7 @@ exports.updatePatient = async (req, res) => {
   if (!id) {
     return res
       .status(400)
-      .json({ success: false, message: "Invalid Patient Id" });
+      .json({ success: false, message: "Invalid Patient ID" });
   }
 
   try {
@@ -199,47 +199,47 @@ exports.updatePatient = async (req, res) => {
         .json({ success: false, message: "Patient not found." });
     }
 
-    if (
-      req.headers["content-type"] &&
-      req.headers["content-type"].includes("application/json")
-    ) {
-      if (req.body.fullName) patient.fullName = req.body.fullName;
-      if (req.body.phone) patient.phone = req.body.phone;
-      if (req.body.address) patient.address = req.body.address;
-      if (req.body.medicalHistory)
-        patient.medicalHistory = req.body.medicalHistory;
-      if (req.body.visitedDoctors)
-        patient.visitedDoctors = req.body.visitedDoctors;
+    // Update basic fields
+    if (req.body.fullName) patient.fullName = req.body.fullName;
+    if (req.body.phone) patient.phone = req.body.phone;
+    if (req.body.address) patient.address = req.body.address;
 
-      if (req.file) {
-        if (patient.profilePicture) {
+    // Handle Profile Picture Upload
+    if (req.file) {
+      // <-- use req.file instead of req.files.profilePicture
+      const newProfilePicture = req.file;
+
+      // Delete old profile picture if exists
+      if (patient.profilePicture) {
+        try {
           const publicId = patient.profilePicture
             .split("/")
-            .slice(-2)
-            .join("/")
+            .pop()
             .split(".")[0];
-          await cloudinary.uploader.destroy(publicId);
+
+          await cloudinary.uploader.destroy(
+            `MediLink/profilePictures/${publicId}`
+          );
+        } catch (error) {
+          console.error("❌ Error deleting old profile picture:", error);
         }
-
-        const result = await uploadToCloudinary(req.file);
-
-        patient.profilePicture = result.url;
       }
+
+      // Upload new profile picture
+      const result = await uploadToCloudinary(newProfilePicture);
+      patient.profilePicture = result.url;
     }
 
     await patient.save();
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
-      message: "Patient Updated Successfully.",
+      message: "Patient updated successfully.",
       patient,
     });
   } catch (err) {
-    console.log("Error updating Patient:", err);
-    return res.status(500).json({
-      success: false,
-      message: "Server Error",
-    });
+    console.error("Error updating patient:", err);
+    return res.status(500).json({ success: false, message: "Server Error" });
   }
 };
 

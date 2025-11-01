@@ -49,7 +49,7 @@ const Home = () => {
   }, [dispatch, patient]);
 
   const handleNavigateAppointment = () => {
-    navigation.navigate('Appointments');
+    navigation.navigate('Departments');
   };
 
   return (
